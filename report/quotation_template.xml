@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="report_quotation_template">
         <t t-name="crm_sales_custom.report_quotation_template">
@@ -8,20 +7,16 @@
                     <t t-call="web.external_layout">
                         <div class="page" style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 10px; box-sizing: border-box;">
 
-                            <t t-if="company.logo">
-                                <table style="width: 100%; text-align: center; margin-bottom: 10px;">
-                                    <tr>
-                                        <td><img t-att-src="image_data_uri(company.logo)" style="max-height: 50pt;" /></td>
-                                    </tr>
-                                </table>
-                            </t>
+                
 
                             <h2 style="text-align: center; font-weight: bold;">Quotation</h2>
                             <p style="text-align: center;">Date: <span t-field="o.date_order" t-options="{'widget': 'date'}"/></p>
 
                             <p>With utmost pleasure, we offer our quotation for the following items for your thoughtful evaluation and approval:</p>
 
-                            <h4 style="margin-top: 30px;">DSWD NIR MAIN BUILDING</h4>
+                            <!-- Dynamic title -->
+                            <h4 style="margin-top: 30px;" t-out="o.name">[Quotation Title]</h4>
+
                             <table style="width:100%; border-collapse: collapse; font-size: 12px; border: 1px solid #ccc;">
                                 <thead>
                                     <tr style="background-color: #f0f0f0;">
@@ -62,13 +57,29 @@
                             </ul>
 
                             <p style="margin-top: 40px;">Sincerely,</p>
-                            <p><strong>John Paulo C. Mojica</strong><br/>Account Manager<br/>Paulo.Mojica@zedcor.ph</p>
+                            <p>
+                                <strong t-out="o.user_id.name">Salesperson</strong><br/>
+                            
+                                <span t-out="o.user_id.email or ''"/>
+                            </p>
 
                             <p style="margin-top: 60px;">Conforme:</p>
                             <p>_________________________<br/>Signature over printed name</p>
                             <p>Date: _____________________</p>
 
                         </div>
+
+                        <!-- Footer -->
+                        <div t-attf-class="footer o_company_#{company.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+                            <div class="o_footer_content d-flex border-top pt-2">
+                                <div class="flex-grow-1 me-2 text-start" t-field="company.report_footer"/>
+                                <div class="text-end text-muted">
+                                    <div t-if="report_type == 'pdf' and display_name_in_footer" t-out="o.name"/>
+                                    <div t-if="report_type == 'pdf'">Page <span class="page"/> / <span class="topage"/></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </t>
                 </t>
             </t>

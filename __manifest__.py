@@ -11,7 +11,8 @@
     'depends': ['base','sale','crm'],  # Depends on sale and crm modules
     'data': [
         "report/quotation_template.xml",
-        "report/report.xml",
+        "report/report.xml"
+
     ],
     'installable': True,
     'application': True,
